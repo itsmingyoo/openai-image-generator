@@ -123,6 +123,8 @@ const chatCompletion = await openai.chat.completions.create({
 **Returns a list of IMAGE objects**
 
 ### Example using curl to create an image
+
+- Request
 ```
 curl https://api.openai.com/v1/images/generations \
   -H "Content-Type: application/json" \
@@ -133,4 +135,15 @@ curl https://api.openai.com/v1/images/generations \
     "n": 1,
     "size": "1024x1024"
   }'
+```
+- Response
+```
+{
+  "created": 1704691792,
+  "data": [
+    {
+      "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-Qy6xiDqvchmXP64n5v557j14/user-sa7yOUdvDLq0FAoFhos5HvaN/img-ticsNm1R1OsCDIgYuDPLRxSc.png?st=2024-01-08T04%3A29%3A52Z&se=2024-01-08T06%3A29%3A52Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-01-07T16%3A39%3A06Z&ske=2024-01-08T16%3A39%3A06Z&sks=b&skv=2021-08-06&sig=t8Hn0KQqRagI8aEdOakqF%2BDsAkg2zuZ9eV6yjJcdomg%3D"
+    }
+  ]
+}
 ```

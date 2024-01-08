@@ -10,6 +10,7 @@ function App() {
       <p className="read-the-docs">
         This project will manipulate images into a different image.
       </p>
+      <button>Generate an image</button>
     </>
   );
 }
