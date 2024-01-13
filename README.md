@@ -8,6 +8,8 @@
 - Redux
 - openAI API
     - `npm install openai@^4.0.0`
+- `npm install @reduxjs/toolkit react-redux`
+  1. Makes your life easier with thunks/reducers, setting up store/redux.
 
 # Starting the App
 - `npm i` and `npm run dev` in both frontend and backend folders
