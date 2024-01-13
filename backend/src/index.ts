@@ -1,6 +1,8 @@
-import express, { Request, Response } from 'express';
+//! Separation of Concerns: Keeping the server initialization (index.ts) separate from the application logic (app.ts) makes your code cleaner and more modular.
 
-const app = express();
+import { Request, Response } from 'express';
+import app from './app';
+
 const PORT = process.env.PORT || 3000;
 
 // app.get('/', (req: Request, res: Response) => {
@@ -8,9 +10,9 @@ const PORT = process.env.PORT || 3000;
 // });
 
 
-app.get('/test', (req: Request, res: Response) => {
-  res.send('Test route is working!');
-});
+// app.get('/test', (req: Request, res: Response) => {
+//   res.send('Test route is working!');
+// });
 
 
 app.listen(PORT, () => {

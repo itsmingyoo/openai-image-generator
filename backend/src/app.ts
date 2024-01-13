@@ -18,41 +18,37 @@ if (!isProduction) {
   app.use(cors());
 }
 
-// Connect all the routes
-// const routes = Router()
-// routes.use('/api', apiRouter()) // this prepends all routes with localhost/api/<routes here>
-app.use(routes);
+// Test Routes - Only work before app.use(routes())
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello World!");
+});
 
-// Catch unhandled requests and forward to error handler.
+app.get("/test", (req: Request, res: Response) => {
+  res.send("Test route is working!");
+});
+
+// Connect all the routes - Routes needs to be invoked because of src/routes/index.ts exports a function of all the routes
+app.use(routes());
+
+// Error handlers should be after all other middleware and routes
 app.use((req: Request, res: Response, next: NextFunction) => {
   const err = new CustomError("The requested resource couldn't be found.", 404);
   next(err);
 });
 
-// Generic Error Formatter Error-Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof CustomError) {
-    // Custom error handling
-    res.status(err.status).json({
-      message: err.message,
-      errors: err.errors,
-    });
-  } else {
-    // Fallback for other types of errors
-    const status = err.status || 500;
-    const message = err.message || "An unknown error occurred";
-
-    console.error(err);
-    res.status(status).json({
-      title: "Server Error",
-      message: message,
-      errors: { general: message },
-      stack: isProduction ? null : err.stack,
-    });
-  }
+  const status = err.status || 500;
+  const message = err.message || "An unknown error occurred";
+  console.error(err);
+  res.status(status).json({
+    title: "Server Error",
+    message: message,
+    errors: { general: message },
+    stack: isProduction ? null : err.stack,
+  });
 });
 
-export default app
+export default app;
 
 // import express from 'express';
 // ... other imports ...
