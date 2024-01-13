@@ -1,20 +1,15 @@
-const environment = process.env.NODE_ENV || 'development';
+const environment = process.env.NODE_ENV || "development";
 
 interface Config {
   environment: string;
-  // Define other configuration properties here
+  openaiApiKey: string;
 }
 
 const config: Record<string, Config> = {
   development: {
-    environment: 'development',
-    // other development-specific settings
+    environment: "development",
+    openaiApiKey: process.env.OPENAI_API_KEY || "undefined key: figure it out", // dont think we need this since we have dotenv now, but this is good for testing
   },
-  production: {
-    environment: 'production',
-    // other production-specific settings
-  },
-  // You can add more environments if needed
 };
 
 export { environment }; // Named export
