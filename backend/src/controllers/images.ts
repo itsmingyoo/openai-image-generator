@@ -7,14 +7,16 @@ export const generate: RequestHandler = async (req, res, next) => {
   console.log("WE ARE HITTING THE FETCH");
   try {
     console.log("STARTING POST REQUEST TO OPENAI");
+    const { prompt } = req.body; // the only way to extract this from req.body is to use the express middleware in your app.ts backend - placed before routes - `app.use(express.json())` - this parses the body for you
 
+    console.log("THIS IS THE BODY BACKEND", prompt);
     const openaiApiKey = process.env.OPENAI_API_KEY;
 
     const openai = new OpenAI({ apiKey: `${openaiApiKey}` }); // we must instantiate openai for the method, and include our api key here since we're using their library and not an actual fetch
 
     // fetch image with a prompt
     const image = await openai.images.generate({
-      prompt: "A cute baby sea otter",
+      prompt: `${prompt ? prompt : "a cute little sea otter!"}`,
     });
 
     console.log("RESPONSE DATA: ", image.data);
@@ -25,6 +27,8 @@ export const generate: RequestHandler = async (req, res, next) => {
     //   }
     // ]
 
+    console.log("END OF FETCH");
+
     // send data to frontend
     res.status(201).send(image.data);
   } catch (error) {
@@ -32,36 +36,3 @@ export const generate: RequestHandler = async (req, res, next) => {
     next(error);
   }
 };
-
-// try {
-//   const openaiApiKey = process.env.OPENAI_API_KEY; // Ensure this is set in your environment
-//   const url = "https://api.openai.com/v1/images/generations";
-
-//   const fetchData = {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${openaiApiKey}`,
-//     },
-//     body: JSON.stringify({
-//       model: "dall-e-3",
-//       prompt: "A cute baby sea otter",
-//       n: 1,
-//       size: "1024x1024",
-//     }),
-//   };
-
-//   const response = await fetch(url, fetchData);
-//   console.log("BACKEND RESPONSE: ", response);
-//   console.log("WE FAILED BECAUSE: ", response.statusText);
-//   if (!response.ok) {
-//     throw new Error(`Error from OpenAI API: ${response.status}`);
-//   }
-//   const data = await response.json();
-//   console.log("BACKEND DATA IN JSON: ", data);
-//   res.send(data); // Send the response data back to the client
-// } catch (error: any) {
-//   console.error("CAUGHT AN ERROR: ", error.message);
-//   next(error); // Forward the error to your error-handling middleware
-// }
-// };

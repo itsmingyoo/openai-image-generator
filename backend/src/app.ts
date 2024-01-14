@@ -18,6 +18,9 @@ if (!isProduction) {
   app.use(cors());
 }
 
+// Middleware to parse JSON bodies
+app.use(express.json());
+
 // Test Routes - Only work before app.use(routes())
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");

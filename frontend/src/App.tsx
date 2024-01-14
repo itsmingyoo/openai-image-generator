@@ -1,16 +1,24 @@
 // import "./index.css";
 // import "./App.css";
-import { useState } from "react";
+import React, { useState } from "react";
 
 function App() {
   const [imageUrl, setImageUrl] = useState("");
-  const generateImage = async () => {
+  const [prompt, setPrompt] = useState("");
+  const generate = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       console.log('GENERATING IMAGE BY FETCHING TO POST ROUTE "/generate"...');
       const response = await fetch("http://localhost:3000/generate", {
         // we should still fetch from our backend which is localhost not 127.0.0.1 which is our frontend vite
         // since it is a post route, it won't find it unless we explicitly say its a 'POST' fetch
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+        }),
       });
 
       if (!response.ok) {
@@ -33,9 +41,9 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="md:flex flex-col justify-center items-center">
       <h1>OpenAI Image Generator</h1>
-      <p className="read-the-docs">
+      <p className="my-10">
         This project will manipulate images into a different image.
       </p>
       <br />
@@ -50,19 +58,32 @@ function App() {
         />
       </div>
       <br />
-      <form>
-        <textarea className="focus:bg-white hover:bg-black focus:border-white hover:border-black"></textarea>
-        <button
-          className="md:hover:bg-gray-400 dark:disabled:bg-gray-400" // works
-          onClick={generateImage}
-        >
-          Generate an image
-        </button>
-        <button
-          className="md:dark:disabled:focus:hover:bg-gray-400" // doesnt works
-        >
-          Generate Variation
-        </button>
+      <form className="md:flex justify-between" onSubmit={generate}>
+        <div className="md:flex flex-col">
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="       Give a prompt"
+            className="md:focus:bg-white md:hover:bg-gray-400 md:focus:border-white md:hover:border"
+          ></textarea>
+          <button
+            className="md:hover:bg-gray-400 dark:disabled:bg-gray-400" // works
+            // onClick={generateImage}
+          >
+            Generate an image
+          </button>
+        </div>
+        <div className="md:flex flex-col">
+          <textarea
+            placeholder="   Feature coming soon"
+            className="md:focus:bg-white md:hover:bg-gray-400 md:focus:border-white md:hover:border"
+          ></textarea>
+          <button
+            className="md:dark:disabled:focus:hover:bg-gray-400" // doesnt works
+          >
+            Generate Variation
+          </button>
+        </div>
       </form>
     </div>
   );
