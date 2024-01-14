@@ -1,13 +1,15 @@
-# openai image scanner
+# OpenAI Image Generator
+
+### A small solo project to implement openai API to generate and display an image based on the user's prompt. Also, used for learning typescript with JavaScript backend and frontend, and to be used as a reference for setting up future projects with Vite.
 
 ## Technology
 - Vite/React
     - `npm create vite@latest`
-- Javascript
-- MongoDB
-- Redux
+- JavaScript
+- TypeScript
 - openAI API
     - `npm install openai@^4.0.0`
+- TailwindCSS
 - `npm install @reduxjs/toolkit react-redux`
   1. Makes your life easier with thunks/reducers, setting up store/redux.
 
