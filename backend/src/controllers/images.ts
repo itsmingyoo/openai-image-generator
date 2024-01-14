@@ -10,10 +10,14 @@ export const generate: RequestHandler = async (req, res, next) => {
 
     const openaiApiKey = process.env.OPENAI_API_KEY;
 
-    const openai = new OpenAI({ apiKey: `${openaiApiKey}` });
+    const openai = new OpenAI({ apiKey: `${openaiApiKey}` }); // we must instantiate openai for the method, and include our api key here since we're using their library and not an actual fetch
+
+    // fetch image with a prompt
     const image = await openai.images.generate({
       prompt: "A cute baby sea otter",
     });
+
+    console.log("RESPONSE DATA: ", image.data);
     // response ===> image.data:
     // [
     //   {
@@ -21,8 +25,7 @@ export const generate: RequestHandler = async (req, res, next) => {
     //   }
     // ]
 
-    console.log(image.data);
-
+    // send data to frontend
     res.status(201).send(image.data);
   } catch (error) {
     console.error("Error in generate route:", error);
